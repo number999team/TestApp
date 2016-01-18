@@ -27,11 +27,11 @@ public class LocationControlService extends Service {
         locationListener = new MyLocationListener();
 
         //try to check location every 2 min and notify if location changed if dleta more than 100 meters
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120 * 1000, 100,
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120 * 1000, 50,
                 this.locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 1, 10,
                 this.locationListener);
-        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000 * 10, 100,
+        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000 * 10, 50,
                 this.locationListener);
         Log.v("dimamir999", "LocationControlService started");
     }

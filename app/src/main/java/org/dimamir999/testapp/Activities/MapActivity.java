@@ -54,7 +54,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         if (myLocation == null) {
             Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
             String provider = lm.getBestProvider(criteria, true);
             myLocation = lm.getLastKnownLocation(provider);
         }
@@ -81,5 +81,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 startService(new Intent(MapActivity.this, LocationControlService.class));
             }
         });
+        serviceThread.start();
     }
 }
