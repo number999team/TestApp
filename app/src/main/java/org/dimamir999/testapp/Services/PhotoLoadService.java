@@ -1,5 +1,6 @@
 package org.dimamir999.testapp.Services;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
 
@@ -9,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.dimamir999.testapp.Model.PhotoWithGeoTag;
+import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +20,11 @@ import java.util.Date;
  */
 public class PhotoLoadService {
 
-    public PhotoLoadService() {}
+    private PhotoWithGeoTagDAO dao;
+
+    public PhotoLoadService(Context context) {
+        dao = new PhotoWithGeoTagDAO(context);
+    }
 
     public ArrayList<PhotoWithGeoTag> getUserPhotos(){
         ArrayList<PhotoWithGeoTag> userPhotos = new ArrayList<PhotoWithGeoTag>();

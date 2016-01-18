@@ -1,5 +1,6 @@
 package org.dimamir999.testapp.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -21,7 +22,7 @@ import org.dimamir999.testapp.Services.LocationControlService;
 import org.dimamir999.testapp.Services.PhotoLoadService;
 
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends Activity implements OnMapReadyCallback {
 
     private GoogleMap map;
     private PhotoLoadService loadService;
@@ -31,7 +32,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        loadService = new PhotoLoadService();
+        loadService = new PhotoLoadService(this);
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
@@ -60,8 +61,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         //add marker my location
-        map.addMarker(new MarkerOptions().position(new LatLng(myLocation.getLatitude(),
-                myLocation.getLongitude())).title("my location"));
+        if(myLocation != null) {
+            map.addMarker(new MarkerOptions().position(new LatLng(myLocation.getLatitude(),
+                    myLocation.getLongitude())).title("my location"));
+        }
 
         LatLng sydney = new LatLng(-34, 151);
         LatLng test1 = new LatLng(-34, 150);

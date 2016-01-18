@@ -26,6 +26,7 @@ public class PhotoWithGeoTag {
     private double longitude;
     private double latitude;
     private Date date;
+    private String path;
 
     public PhotoWithGeoTag(Bitmap photo, double longitude, double latitude, Date date) {
         this.photo = photo;
@@ -63,5 +64,21 @@ public class PhotoWithGeoTag {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
