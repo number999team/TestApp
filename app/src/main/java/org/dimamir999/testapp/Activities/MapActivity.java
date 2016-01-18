@@ -1,8 +1,7 @@
 package org.dimamir999.testapp.Activities;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,12 +16,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.dimamir999.testapp.Model.PhotoWithGeoTag;
 import org.dimamir999.testapp.R;
+import org.dimamir999.testapp.Services.LocationControlService;
 import org.dimamir999.testapp.Services.PhotoLoadService;
 
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
     private PhotoLoadService loadService;
@@ -37,6 +36,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
+        startService(new Intent(this, LocationControlService.class));
+        Log.v("dimamir999", "MapActivity created");
     }
 
     @Override
@@ -56,6 +57,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             String provider = lm.getBestProvider(criteria, true);
             myLocation = lm.getLastKnownLocation(provider);
         }
+
         //add marker my location
         map.addMarker(new MarkerOptions().position(new LatLng(myLocation.getLatitude(),
                 myLocation.getLongitude())).title("my location"));
@@ -69,10 +71,5 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         map.addMarker(new MarkerOptions().position(test1).title("test1"));
         map.addMarker(new MarkerOptions().position(test2).title("test2"));
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    @Override
-    public boolean onMyLocationButtonClick() {
-        return false;
     }
 }
