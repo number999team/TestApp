@@ -32,11 +32,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_map);
 
         loadService = new PhotoLoadService();
-
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
-        startService(new Intent(this, LocationControlService.class));
+
+        startLocationControlService();
+
         Log.v("dimamir999", "MapActivity created");
     }
 
@@ -71,5 +72,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.addMarker(new MarkerOptions().position(test1).title("test1"));
         map.addMarker(new MarkerOptions().position(test2).title("test2"));
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    private void startLocationControlService(){
+        Thread serviceThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startService(new Intent(MapActivity.this, LocationControlService.class));
+            }
+        });
     }
 }
