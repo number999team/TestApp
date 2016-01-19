@@ -45,6 +45,10 @@ public class PickPhotoFragment extends Fragment {
         startActivityForResult(pickPhotoIntent, PICK_PHOTO_REQUEST);
     }
 
+    public void loadPhotoFromURL(String url) {
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap photo = null;
@@ -56,11 +60,23 @@ public class PickPhotoFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            // Operation failed or cancelled. Handle in your own way.
+        }
+        else {
+            //scale because open gl cant load photo more than 4096 px
+            scalePhoto(photo);
+            setPhotoToView(photo);
+        }
+    }
 
-        //make better scale method
-        photo = Bitmap.createScaledBitmap(photo, 512, 512, true);
+    //improve this method
+    public void scalePhoto(Bitmap src){
+        src = Bitmap.createScaledBitmap(src, 512, 512, true);
+    }
+
+    public void setPhotoToView(Bitmap photo){
         ImageView imageView = (ImageView) getActivity().findViewById(R.id.photoView);
         imageView.setImageBitmap(photo);
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
