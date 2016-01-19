@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class DBHelper extends SQLiteOpenHelper{
 
-    private final static String DB_NAME = "PhotosWithGeoTags";
+    private final static String DB_NAME = "GeoPhotos";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, 1);

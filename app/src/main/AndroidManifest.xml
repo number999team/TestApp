@@ -44,17 +44,28 @@
             android:name=".Activities.MapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <service
+            android:name=".Services.LocationControlService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".Activities.PhotoPickActivity"
+            android:label="@string/title_activity_photo_pick"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".Services.LocationControlService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
