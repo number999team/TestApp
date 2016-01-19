@@ -41,7 +41,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Activities.MapActivity"
+            android:name=".View.MapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
@@ -57,7 +57,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".Activities.PhotoPickActivity"
+            android:name=".View.PhotoPickActivity"
             android:label="@string/title_activity_photo_pick"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
