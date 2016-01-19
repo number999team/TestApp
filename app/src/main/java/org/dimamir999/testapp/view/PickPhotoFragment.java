@@ -3,6 +3,7 @@ package org.dimamir999.testapp.view;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import org.dimamir999.testapp.R;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by dimamir999 on 19.01.16.
@@ -46,7 +48,9 @@ public class PickPhotoFragment extends Fragment {
     }
 
     public void loadPhotoFromURL(String url) {
-
+        Bitmap photo = null;
+        InputStream stream = null;
+        photo = BitmapFactory.decodeStream(stream);
     }
 
     @Override
@@ -55,6 +59,7 @@ public class PickPhotoFragment extends Fragment {
         if (requestCode == PICK_PHOTO_REQUEST && resultCode == getActivity().RESULT_OK) {
             Uri selectedPhoto = data.getData();
             try {
+                // sometimes out of memory exeption maybe make some limit for size of photo
                 photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedPhoto);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -65,14 +70,14 @@ public class PickPhotoFragment extends Fragment {
         }
         else {
             //scale because open gl cant load photo more than 4096 px
-            scalePhoto(photo);
+            photo = scalePhoto(photo);
             setPhotoToView(photo);
         }
     }
 
     //improve this method
-    public void scalePhoto(Bitmap src){
-        src = Bitmap.createScaledBitmap(src, 512, 512, true);
+    public Bitmap scalePhoto(Bitmap src){
+        return Bitmap.createScaledBitmap(src, 512, 512, true);
     }
 
     public void setPhotoToView(Bitmap photo){
