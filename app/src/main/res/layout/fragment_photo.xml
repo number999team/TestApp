@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.PhotoFragment">
+    tools:context=".view.PhotoFragment">
 
     <ImageView
         android:id = "@+id/photoView"
-        android:src="@drawable/grass"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+         />
 
 </FrameLayout>

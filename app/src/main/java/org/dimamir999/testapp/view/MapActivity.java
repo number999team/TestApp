@@ -1,4 +1,4 @@
-package org.dimamir999.testapp.View;
+package org.dimamir999.testapp.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,8 +17,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.dimamir999.testapp.R;
-import org.dimamir999.testapp.Services.LocationControlService;
-import org.dimamir999.testapp.Services.PhotoLoadService;
+import org.dimamir999.testapp.services.LocationControlService;
+import org.dimamir999.testapp.services.PhotoLoadService;
 
 
 public class MapActivity extends Activity implements OnMapReadyCallback {

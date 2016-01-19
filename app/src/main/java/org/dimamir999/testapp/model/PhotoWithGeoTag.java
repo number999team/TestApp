@@ -1,21 +1,16 @@
-package org.dimamir999.testapp.Model;
+package org.dimamir999.testapp.model;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.text.format.Time;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.barcode.Barcode;
 
 import org.dimamir999.testapp.R;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by dimamir999 on 17.01.16.

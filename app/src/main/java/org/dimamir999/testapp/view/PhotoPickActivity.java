@@ -1,8 +1,7 @@
-package org.dimamir999.testapp.View;
+package org.dimamir999.testapp.view;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import org.dimamir999.testapp.R;
 

@@ -4,10 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import org.dimamir999.testapp.Model.PhotoWithGeoTag;
+import org.dimamir999.testapp.model.PhotoWithGeoTag;
 
 /**
  * Created by dimamir999 on 18.01.16.

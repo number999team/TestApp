@@ -41,7 +41,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".View.MapActivity"
+            android:name=".view.MapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
@@ -52,12 +52,12 @@
         </activity>
 
         <service
-            android:name=".Services.LocationControlService"
+            android:name=".services.LocationControlService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".View.PhotoPickActivity"
+            android:name=".view.PhotoPickActivity"
             android:label="@string/title_activity_photo_pick"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>

@@ -1,4 +1,4 @@
-package org.dimamir999.testapp.Services;
+package org.dimamir999.testapp.services;
 
 import android.app.Service;
 import android.content.Context;

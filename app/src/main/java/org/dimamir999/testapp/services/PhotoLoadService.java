@@ -1,4 +1,4 @@
-package org.dimamir999.testapp.Services;
+package org.dimamir999.testapp.services;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.dimamir999.testapp.Model.PhotoWithGeoTag;
+import org.dimamir999.testapp.model.PhotoWithGeoTag;
 import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 
 import java.util.ArrayList;
