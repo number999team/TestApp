@@ -1,4 +1,4 @@
-package org.dimamir999.testapp.view;
+package org.dimamir999.testapp.activities.views;
 
 import android.app.Activity;
 import android.os.Bundle;

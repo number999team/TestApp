@@ -41,14 +41,16 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".view.MapActivity"
+            android:name=".activities.views.MapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <service
@@ -57,15 +59,19 @@
             android:exported="true" />
 
         <activity
-            android:name=".view.PhotoPickActivity"
+            android:name=".activities.views.PhotoPickActivity"
             android:label="@string/title_activity_photo_pick"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.views.ListPhotosActivity"
+            android:label="@string/title_activity_list_photos"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

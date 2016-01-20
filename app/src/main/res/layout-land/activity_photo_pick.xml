@@ -6,14 +6,14 @@
     android:layout_height="fill_parent">
 
     <fragment
-        android:name="org.dimamir999.testapp.view.PhotoFragment"
+        android:name="org.dimamir999.testapp.activities.views.PhotoFragment"
         android:id="@id/photo_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6"/>
 
     <fragment
-        android:name="org.dimamir999.testapp.view.PickPhotoFragment"
+        android:name="org.dimamir999.testapp.activities.views.PickPhotoFragment"
         android:id="@id/pick_photo_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
