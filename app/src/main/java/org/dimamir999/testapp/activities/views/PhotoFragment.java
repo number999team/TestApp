@@ -14,7 +14,6 @@ import org.dimamir999.testapp.R;
 
 public class PhotoFragment extends Fragment{
 
-    private Bitmap currentPhoto;
     private ImageView imageView;
 
     @Override
