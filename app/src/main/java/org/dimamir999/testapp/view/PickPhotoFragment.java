@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 public class PickPhotoFragment extends Fragment {
 
     private final static int PICK_PHOTO_REQUEST = 1;
+    private final static int MAX_PIXEL_LENGTH = 2048;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class PickPhotoFragment extends Fragment {
                 loadPhotoFromURL(urlField.getText().toString());
             }
         });
+
         return view;
     }
 
@@ -65,7 +67,7 @@ public class PickPhotoFragment extends Fragment {
 
     public void loadPhotoFromURL(String url) {
         ImageLoader imageLoader = new ImageLoader();
-        imageLoader.execute("http://s005.radikal.ru/i212/1601/cf/ce10c779036fx.jpg");
+        imageLoader.execute(url);
     }
 
     @Override
@@ -90,9 +92,15 @@ public class PickPhotoFragment extends Fragment {
         }
     }
 
-    //improve this method
     public Bitmap scalePhoto(Bitmap src){
-        return Bitmap.createScaledBitmap(src, 512, 512, true);
+        int height = src.getHeight(), width = src.getWidth();
+        int max = Math.max(height, width);
+        if(max > MAX_PIXEL_LENGTH){
+            double coef = (double)MAX_PIXEL_LENGTH / max;
+            return Bitmap.createScaledBitmap(src, (int)(width * coef), (int)(height * coef), true);
+        }else {
+            return src;
+        }
     }
 
     public void setPhotoToView(Bitmap photo){
@@ -145,10 +153,12 @@ public class PickPhotoFragment extends Fragment {
             uploadProgressBar.setVisibility(ProgressBar.INVISIBLE);
             switch (answerCode){
                 case OK:
+                    result = scalePhoto(result);
                     photoView.setImageBitmap(result);
                     break;
                 case BIG_FILE:
-                    Toast.makeText(getActivity(), "File size more than max size" + MAX_SIZE, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "File size more than max size " + MAX_SIZE + "bytes",
+                            Toast.LENGTH_LONG).show();
                     break;
                 case INCORRECT_FORMAT:
                     Toast.makeText(getActivity(), "Incorrect file format", Toast.LENGTH_LONG).show();
