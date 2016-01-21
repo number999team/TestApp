@@ -10,8 +10,11 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
 import org.dimamir999.testapp.activities.views.PickPhotoView;
+import org.dimamir999.testapp.services.GeoLocationService;
+import org.dimamir999.testapp.services.PhotoScaler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,12 +27,16 @@ import java.util.Date;
 public class PickPhotoPresenter {
 
     public final static int PICK_PHOTO_REQUEST = 1;
-    private final static int MAX_PIXEL_LENGTH = 2048;
+    private final static int MAX_PIXEL_LENGTH = 1024;
+
+    private PhotoScaler photoScaler = new PhotoScaler();
+    private PhotoWithGeoTagDAO photosDAO;
 
     private PickPhotoView view;
 
     public PickPhotoPresenter(PickPhotoView view) {
         this.view = view;
+        this.photosDAO = new PhotoWithGeoTagDAO(view.getContextActivity());
     }
 
     public void loadPhotoFromURL(String url) {
@@ -38,24 +45,21 @@ public class PickPhotoPresenter {
     }
 
     public void addNewPhoto(Bitmap photo){
-        Location location = null;
+        GeoLocationService locationService = new GeoLocationService(view.getContextActivity());
+        Location location = locationService.getCurrentLocation();
         Date currentDate = new Date(System.currentTimeMillis());
-        PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(photo, location.getLongitude(), location.getLatitude(),
-                currentDate);
-
-        view.toListPhotosActivity();
-    }
-
-    public Bitmap scalePhoto(Bitmap src){
-        int height = src.getHeight(), width = src.getWidth();
-        int max = Math.max(height, width);
-        if(max > MAX_PIXEL_LENGTH){
-            double coef = (double)MAX_PIXEL_LENGTH / max;
-            return Bitmap.createScaledBitmap(src, (int)(width * coef), (int)(height * coef), true);
-        }else {
-            return src;
+        if(location != null) {
+            PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(photo, location.getLongitude(), location.getLatitude(),
+                    currentDate);
+            photosDAO.add(userPhoto);
+            Log.v("dimamir999", userPhoto.toString());
+            view.toListPhotosActivity();
+        } else {
+            view.showErrorMessage("Start up GPS or internet");
         }
     }
+
+
 
     public void pickInGalery(int requestCode, int resultCode, Intent data, Activity activity){
         Bitmap photo = null;
@@ -73,7 +77,7 @@ public class PickPhotoPresenter {
         }
         else {
             //scale because open gl cant load photo more than 4096 px
-            photo = scalePhoto(photo);
+            photo = photoScaler.scale(photo, MAX_PIXEL_LENGTH);
             view.setPhotoToView(photo);
         }
     }
@@ -123,7 +127,7 @@ public class PickPhotoPresenter {
             view.stopProgressBar();
             switch (answerCode){
                 case OK:
-                    result = scalePhoto(result);
+                    result = photoScaler.scale(result, MAX_PIXEL_LENGTH);
                     view.setPhotoToView(result);
                     break;
                 case BIG_FILE:

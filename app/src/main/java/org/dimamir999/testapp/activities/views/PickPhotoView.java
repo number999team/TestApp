@@ -1,5 +1,6 @@
 package org.dimamir999.testapp.activities.views;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 
 /**
@@ -12,5 +13,6 @@ public interface PickPhotoView {
     public void setPhotoToView(Bitmap photo);
     public void showErrorMessage(String message);
     public void toListPhotosActivity();
+    public Activity getContextActivity();
 
 }

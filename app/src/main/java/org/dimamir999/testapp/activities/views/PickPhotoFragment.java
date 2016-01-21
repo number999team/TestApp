@@ -1,8 +1,10 @@
 package org.dimamir999.testapp.activities.views;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +24,7 @@ import org.dimamir999.testapp.activities.presenters.PickPhotoPresenter;
  */
 public class PickPhotoFragment extends Fragment implements PickPhotoView{
 
-
-
-    private PickPhotoPresenter presenter = new PickPhotoPresenter(this);
+    private PickPhotoPresenter presenter;
 
     private ImageView photoView;
     private ProgressBar uploadProgressBar;
@@ -54,9 +54,10 @@ public class PickPhotoFragment extends Fragment implements PickPhotoView{
             @Override
             public void onClick(View v) {
                 Log.v("dimamir999", "handle click on add photo button");
-                presenter.loadPhotoFromURL(urlField.getText().toString());
+                presenter.addNewPhoto(((BitmapDrawable) photoView.getDrawable()).getBitmap());
             }
         });
+        presenter = new PickPhotoPresenter(this);
         return view;
     }
 
@@ -94,6 +95,10 @@ public class PickPhotoFragment extends Fragment implements PickPhotoView{
     public void toListPhotosActivity(){
         Intent intent = new Intent(getActivity(), ListPhotosActivity.class);
         startActivity(intent);
+    }
+
+    public Activity getContextActivity(){
+        return  getActivity();
     }
 
     @Override

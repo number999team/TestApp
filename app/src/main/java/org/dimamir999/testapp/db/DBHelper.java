@@ -24,12 +24,12 @@ public class DBHelper extends SQLiteOpenHelper{
                 + "path text,"
                 + "longitude real,"
                 + "latitude real,"
-                + "date text"
+                + "date integer"
                 + ");");
         database.execSQL("create table distances ("
                 + "id integer primary key autoincrement,"
                 + "distance real,"
-                + "date text"
+                + "date integer"
                 + ");");
     }
 
