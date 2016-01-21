@@ -41,11 +41,4 @@ public class PhotoLoadService {
         return markers;
     }
 
-    public void addNewPhoto(Bitmap photo, GoogleMap map){
-        Location location = map.getMyLocation();
-        Date currentDate = new Date(System.currentTimeMillis());
-        PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(photo, location.getLongitude(), location.getLatitude(),
-                currentDate);
-        //insert userPhoto to db
-    }
 }

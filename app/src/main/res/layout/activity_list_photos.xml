@@ -7,8 +7,10 @@
     <TextView
         android:id="@+id/distance_view"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:textAlignment="center"
+        android:textSize="25sp"
         android:text="Today dictance: 12.56 km"
         android:layout_weight="1"/>
 
@@ -16,7 +18,28 @@
         android:id="@+id/photos_list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="9">
     </ListView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:onClick="toPickPhotoActivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add new photo"/>
+
+        <Button
+            android:onClick="toMapActivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To map"/>
+    </LinearLayout>
 
 </LinearLayout>
