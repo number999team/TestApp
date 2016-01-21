@@ -37,6 +37,13 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_photos);
         presenter = new ListPhotosPresenter(this);
+        if(LocationControlService.isRunning) {
+            stopService(new Intent(this, LocationControlService.class));
+            ((TextView) findViewById(R.id.turn_service_button)).setText("Start scan my location");
+        } else {
+            startService(new Intent(this, LocationControlService.class));
+            ((TextView) findViewById(R.id.turn_service_button)).setText("Stop scan my location");
+        }
         photosListView = (ListView) findViewById(R.id.photos_list);
 
         ArrayList<PhotoWithGeoTag> photosList = presenter.getListData();
@@ -92,7 +99,7 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
     }
 
     public void changeGeoLocationServiceStatus(View view){
-        if(presenter.isServiceRunning(LocationControlService.class)) {
+        if(LocationControlService.isRunning) {
             stopService(new Intent(this, LocationControlService.class));
             ((TextView) view).setText("Start scan my location");
         } else {

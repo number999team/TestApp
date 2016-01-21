@@ -12,6 +12,8 @@ import android.util.Log;
 
 public class LocationControlService extends Service {
 
+    public static boolean isRunning = false;
+
     private MyLocationListener locationListener;
     private LocationManager locationManager;
     private Location lastLocation;
@@ -24,6 +26,7 @@ public class LocationControlService extends Service {
     public void onCreate()
     {
         super.onCreate();
+        isRunning = true;
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
 
@@ -75,6 +78,7 @@ public class LocationControlService extends Service {
     @Override
     public void onDestroy() {
         Log.v("dimamir999", "LocationControlService stoped");
+        isRunning = false;
         locationManager.removeUpdates(this.locationListener);
     }
 
