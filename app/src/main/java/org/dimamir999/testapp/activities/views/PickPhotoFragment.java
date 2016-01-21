@@ -93,8 +93,7 @@ public class PickPhotoFragment extends Fragment implements PickPhotoView{
     }
 
     public void toListPhotosActivity(){
-        Intent intent = new Intent(getActivity(), ListPhotosActivity.class);
-        startActivity(intent);
+        getActivity().finish();
     }
 
     public Activity getContextActivity(){
