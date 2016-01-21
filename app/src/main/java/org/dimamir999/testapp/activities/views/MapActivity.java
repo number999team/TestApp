@@ -18,20 +18,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.dimamir999.testapp.R;
 import org.dimamir999.testapp.services.LocationControlService;
-import org.dimamir999.testapp.services.PhotoLoadService;
+import org.dimamir999.testapp.services.PhotoSaver;
 
 
 public class MapActivity extends Activity implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private PhotoLoadService loadService;
+    private PhotoSaver loadService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        loadService = new PhotoLoadService(this);
+        loadService = new PhotoSaver(this);
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);

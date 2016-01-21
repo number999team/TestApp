@@ -2,6 +2,8 @@ package org.dimamir999.testapp.model;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -9,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.dimamir999.testapp.R;
+import org.dimamir999.testapp.services.PhotoSaver;
 
 import java.util.Date;
 
@@ -23,8 +26,8 @@ public class PhotoWithGeoTag {
     private Date date;
     private String path;
 
-    public PhotoWithGeoTag(Bitmap photo, double longitude, double latitude, Date date) {
-        this.photo = photo;
+    public PhotoWithGeoTag(String path, double longitude, double latitude, Date date) {
+        this.path = path;
         this.longitude = longitude;
         this.latitude = latitude;
         this.date = date;
@@ -38,6 +41,10 @@ public class PhotoWithGeoTag {
     }
 
     public Bitmap getPhoto() {
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        if(bitmap == null){
+            Log.v("dimamir999", "incorrect format of photo");
+        }
         return photo;
     }
 

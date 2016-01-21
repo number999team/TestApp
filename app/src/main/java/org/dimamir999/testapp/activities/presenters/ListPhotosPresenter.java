@@ -37,7 +37,7 @@ public class ListPhotosPresenter {
         view.getContextActivity().startManagingCursor(cursor);
         String[] from = new String[] { "path", "date" };
         int[] to = new int[] { R.id.photo_item_view, R.id.date_text_view };
-        adapter = new SimpleCursorAdapter(view.getContextActivity(), R.layout.photo_list_item, cursor, from, to);
+        //adapter = new SimpleCursorAdapter(view.getContextActivity(), R.layout.photo_list_item, cursor, from, to);
         return adapter;
     }
 

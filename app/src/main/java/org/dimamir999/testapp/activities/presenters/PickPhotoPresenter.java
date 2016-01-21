@@ -14,6 +14,7 @@ import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
 import org.dimamir999.testapp.activities.views.PickPhotoView;
 import org.dimamir999.testapp.services.GeoLocationService;
+import org.dimamir999.testapp.services.PhotoSaver;
 import org.dimamir999.testapp.services.PhotoScaler;
 
 import java.io.IOException;
@@ -49,13 +50,19 @@ public class PickPhotoPresenter {
         Location location = locationService.getCurrentLocation();
         Date currentDate = new Date(System.currentTimeMillis());
         if(location != null) {
-            PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(photo, location.getLongitude(), location.getLatitude(),
-                    currentDate);
-            photosDAO.add(userPhoto);
-            Log.v("dimamir999", userPhoto.toString());
-            view.toListPhotosActivity();
+            PhotoSaver saver = new PhotoSaver(view.getContextActivity());
+            String path = saver.savePhoto(photo);
+            if(path == null){
+                view.showErrorMessage("Cant save photo");
+            } else {
+                PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(path, location.getLongitude(), location.getLatitude(),
+                        currentDate);
+                photosDAO.add(userPhoto);
+                Log.v("dimamir999", userPhoto.toString());
+                view.toListPhotosActivity();
+            }
         } else {
-            view.showErrorMessage("Start up GPS or internet");
+            view.showErrorMessage("Turn on GPS or internet");
         }
     }
 
