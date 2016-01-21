@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.util.Pair;
 
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -42,11 +44,61 @@ public class PhotoWithGeoTagDAO {
 
     }
 
+
+
     //test this method
-    public Cursor getBetweenDates(Date startDate, Date endDate){
-        String selectionString = "date < ? & date > ?";
+    public ArrayList<PhotoWithGeoTag> getBetweenDates(Date startDate, Date endDate){
+        Cursor c = database.query("photos", null, null, null, null, null, null);
+
+        if (c.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+            int idColIndex = c.getColumnIndex("id");
+            int nameColIndex = c.getColumnIndex("path");
+            int dateColIndex = c.getColumnIndex("date");
+
+            do {
+                // получаем значения по номерам столбцов и пишем все в лог
+                Log.d("dimamir999",
+                        "ID = " + c.getInt(idColIndex) +
+                                ", path = " + c.getString(nameColIndex)
+                                +
+                                ", date = " + new Date(c.getLong(dateColIndex)));
+            } while (c.moveToNext());
+        } else
+            Log.d("dimamir999", "0 rows");
+        c.close();
+
+        ArrayList<PhotoWithGeoTag> result = new ArrayList<PhotoWithGeoTag>();
+        String selectionString = "date > ? AND date < ?";
         String[] selectionArgs = new String[]{String.valueOf(startDate.getTime()), String.valueOf(endDate.getTime())};
         Cursor cursor = database.query("photos", null,selectionString , selectionArgs, null, null, null);
-        return  cursor;
+
+        Log.d("dimamir999", "my query " + startDate + " " + startDate);
+        if (cursor.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+            int idColIndex = cursor.getColumnIndex("id");
+            int pathColIndex = cursor.getColumnIndex("path");
+            int dateColIndex = cursor.getColumnIndex("date");
+            int latitudeColIndex = cursor.getColumnIndex("latitude");
+            int longitudeColIndex = cursor.getColumnIndex("longitude");
+
+            do {
+                PhotoWithGeoTag photoObject = new PhotoWithGeoTag(cursor.getLong(idColIndex), cursor.getLong(dateColIndex),
+                        cursor.getString(pathColIndex), cursor.getDouble(longitudeColIndex), cursor.getDouble(latitudeColIndex));
+                result.add(photoObject);
+                // получаем значения по номерам столбцов и пишем все в лог
+                Log.d("dimamir999",
+                        "ID = " + cursor.getInt(idColIndex) +
+                                ", path = " + cursor.getString(pathColIndex)
+                                +
+                                ", date = " + cursor.getLong(dateColIndex));
+            } while (cursor.moveToNext());
+        } else
+            Log.d("dimamir999", "0 rows");
+
+        return  result;
     }
+
 }

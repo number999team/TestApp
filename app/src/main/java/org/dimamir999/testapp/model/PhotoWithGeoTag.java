@@ -20,6 +20,7 @@ import java.util.Date;
  */
 public class PhotoWithGeoTag {
 
+    private long id;
     private Bitmap photo;
     private double longitude;
     private double latitude;
@@ -31,6 +32,14 @@ public class PhotoWithGeoTag {
         this.longitude = longitude;
         this.latitude = latitude;
         this.date = date;
+    }
+
+    public PhotoWithGeoTag(long id, long date, String path, double longitude, double latitude) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.date = new Date(date);
+        this.path = path;
     }
 
     public MarkerOptions makeMarkerOption(Activity activity){

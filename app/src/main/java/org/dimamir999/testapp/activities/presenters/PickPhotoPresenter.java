@@ -8,6 +8,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.text.format.Time;
 import android.util.Log;
 
 import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
