@@ -40,6 +40,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="To map"/>
+
+        <Button
+            android:onClick="changeGeoLocationServiceStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Stop scan my location"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -34,11 +34,11 @@ public class PhotoWithGeoTag {
         this.date = date;
     }
 
-    public PhotoWithGeoTag(long id, long date, String path, double longitude, double latitude) {
+    public PhotoWithGeoTag(long id, String path, double longitude, double latitude, Date date) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.date = new Date(date);
+        this.date = date;
         this.path = path;
     }
 
@@ -94,6 +94,10 @@ public class PhotoWithGeoTag {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public long getId() {
+        return id;
     }
 
     @Override

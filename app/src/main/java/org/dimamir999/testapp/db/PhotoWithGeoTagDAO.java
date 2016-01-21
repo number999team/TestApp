@@ -40,8 +40,9 @@ public class PhotoWithGeoTagDAO {
         Log.d("dimamir999", "1 row inserted to photos table");
     }
 
-    public void delete(int id){
+    public void delete(long id){
         database.delete("photos", "id = " + id, null);
+        Log.d("dimamir999", "1 row deleted");
     }
 
 
@@ -60,8 +61,9 @@ public class PhotoWithGeoTagDAO {
             int latitudeColIndex = cursor.getColumnIndex("latitude");
             int longitudeColIndex = cursor.getColumnIndex("longitude");
             do {
-                PhotoWithGeoTag photoObject = new PhotoWithGeoTag(cursor.getLong(idColIndex), cursor.getLong(dateColIndex),
-                        cursor.getString(pathColIndex), cursor.getDouble(longitudeColIndex), cursor.getDouble(latitudeColIndex));
+                PhotoWithGeoTag photoObject = new PhotoWithGeoTag(cursor.getLong(idColIndex),
+                        cursor.getString(pathColIndex), cursor.getDouble(longitudeColIndex),
+                        cursor.getDouble(latitudeColIndex), new Date(cursor.getLong(dateColIndex)));
                 result.add(photoObject);
             } while (cursor.moveToNext());
         } else
