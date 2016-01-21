@@ -31,13 +31,11 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
     private ListView photosListView;
     private ArrayList<Map<String, Object>> data;
     private SimpleAdapter adapter;
-    private LocationControlService locationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_photos);
-        locationService = new LocationControlService();
         presenter = new ListPhotosPresenter(this);
         photosListView = (ListView) findViewById(R.id.photos_list);
 
