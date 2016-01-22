@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:textAlignment="center"
         android:textSize="25sp"
-        android:text="Today dictance: 12.56 km"
+        android:text="Total dictance: 12.56 km"
         android:layout_weight="1"/>
 
     <ListView

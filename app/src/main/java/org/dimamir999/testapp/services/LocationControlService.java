@@ -1,5 +1,6 @@
 package org.dimamir999.testapp.services;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import org.dimamir999.testapp.activities.views.ListPhotosActivity;
+
 public class LocationControlService extends Service {
 
     public static boolean isRunning = false;
@@ -18,9 +21,7 @@ public class LocationControlService extends Service {
     private LocationManager locationManager;
     private Location lastLocation;
     private double passedWay;
-
-    public LocationControlService() {
-    }
+    private PendingIntent pendingIntent;
 
     @Override
     public void onCreate()
@@ -30,18 +31,19 @@ public class LocationControlService extends Service {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
 
-        //try to check location every 2 min and notify if location changed if dleta more than 100 meters
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120 * 1000, 50,
+        //try to check location every 2 min and notify if location changed if delta more than 100 meters
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20 * 1000, 0,
                 this.locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 1, 50,
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 120, 0,
                 this.locationListener);
-        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000 * 10, 50,
+        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 1000 * 120, 0,
                 this.locationListener);
         Log.v("dimamir999", "LocationControlService started");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        pendingIntent = intent.getParcelableExtra(ListPhotosActivity.PENDING_INTENT_CODE);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -55,7 +57,19 @@ public class LocationControlService extends Service {
 
         @Override
         public void onLocationChanged(Location location) {
+            if(lastLocation != null)
+                passedWay += location.distanceTo(lastLocation);
             lastLocation = location;
+            if(pendingIntent != null) {
+                Intent intent = new Intent().putExtra("distance", passedWay);
+                try {
+                    pendingIntent.send(LocationControlService.this, ListPhotosActivity.DISTANCE_RESPONSE, intent);
+                    Log.v("dimamir999", "send successful");
+                } catch (PendingIntent.CanceledException e) {
+                    Log.v("dimamir999", "send of way canceled");
+                    e.printStackTrace();
+                }
+            }
             Log.v("dimamir999", "Current location " + location.getLatitude() + " " + location.getLongitude());
         }
 
@@ -80,9 +94,5 @@ public class LocationControlService extends Service {
         Log.v("dimamir999", "LocationControlService stoped");
         isRunning = false;
         locationManager.removeUpdates(this.locationListener);
-    }
-
-    public Location getLastLocation() {
-        return lastLocation;
     }
 }

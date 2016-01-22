@@ -1,6 +1,7 @@
 package org.dimamir999.testapp.activities.views;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -36,12 +37,16 @@ public class ListPhotosActivity extends Activity implements IListPhotoView {
     private static final String ATTRIBUTE_NAME_IMAGE = "image";
     private static final int LIST_PHOTO_HEIGHT = 250;
     private static final int LIST_PHOTO_WIDTH = 250;
+    public static final int DISTANCE_RESPONSE = 0;
+    public static final String PENDING_INTENT_CODE = "pending intent";
 
     private ListPhotosPresenter presenter;
-    private ListView photosListView;
     private ArrayList<Map<String, Object>> data;
     private SimpleAdapter adapter;
     private PhotoScaler photoScaler = new PhotoScaler();
+
+    private ListView photosListView;
+    private TextView dictanceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +54,12 @@ public class ListPhotosActivity extends Activity implements IListPhotoView {
         setContentView(R.layout.activity_list_photos);
         presenter = new ListPhotosPresenter(this);
         if(LocationControlService.isRunning) {
-            stopService(new Intent(this, LocationControlService.class));
-            ((TextView) findViewById(R.id.turn_service_button)).setText("Start scan my location");
-        } else {
-            startService(new Intent(this, LocationControlService.class));
             ((TextView) findViewById(R.id.turn_service_button)).setText("Stop scan my location");
+        } else {
+            ((TextView) findViewById(R.id.turn_service_button)).setText("Start scan my location");
         }
         photosListView = (ListView) findViewById(R.id.photos_list);
+        dictanceView = (TextView) findViewById(R.id.distance_view);
 
         ArrayList<PhotoWithGeoTag> photosList = presenter.getListData();
         data = new ArrayList<Map<String, Object>>();
@@ -94,6 +98,16 @@ public class ListPhotosActivity extends Activity implements IListPhotoView {
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == DISTANCE_RESPONSE){
+            double newDistance = data.getDoubleExtra("distance", -1);
+            if(newDistance != -1)
+                dictanceView.setText("Total distace: " + newDistance);
+            Log.v("dimamir999", "successful recieve of the way");
+        }
+    }
+
     public Activity getContextActivity(){
         return this;
     }
@@ -122,8 +136,12 @@ public class ListPhotosActivity extends Activity implements IListPhotoView {
             stopService(new Intent(this, LocationControlService.class));
             ((TextView) view).setText("Start scan my location");
         } else {
-            startService(new Intent(this, LocationControlService.class));
+            Intent intent = new Intent(this, LocationControlService.class);
+            PendingIntent pendingIntent = createPendingResult(0, new Intent(), 0);;
+            intent.putExtra(PENDING_INTENT_CODE, pendingIntent);
+            startService(intent);
             ((TextView) view).setText("Stop scan my location");
+            Log.v("dimamir999", "start service from ListPhotosActivity");
         }
     }
 

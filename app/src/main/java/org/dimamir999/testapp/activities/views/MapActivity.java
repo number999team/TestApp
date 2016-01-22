@@ -64,6 +64,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
             @Override
             public void run() {
                 startService(new Intent(MapActivity.this, LocationControlService.class));
+                Log.v("dimair999", "start service from map activity");
             }
         });
         serviceThread.start();
