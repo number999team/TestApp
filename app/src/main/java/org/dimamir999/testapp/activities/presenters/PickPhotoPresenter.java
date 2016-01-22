@@ -85,7 +85,7 @@ public class PickPhotoPresenter {
         }
         else {
             //scale because open gl cant load photo more than 4096 px
-            photo = photoScaler.scale(photo, MAX_PIXEL_LENGTH);
+            photo = photoScaler.scaleForBigSize(photo, MAX_PIXEL_LENGTH);
             view.setPhotoToView(photo);
         }
     }
@@ -135,7 +135,7 @@ public class PickPhotoPresenter {
             view.stopProgressBar();
             switch (answerCode){
                 case OK:
-                    result = photoScaler.scale(result, MAX_PIXEL_LENGTH);
+                    result = photoScaler.scaleForBigSize(result, MAX_PIXEL_LENGTH);
                     view.setPhotoToView(result);
                     break;
                 case BIG_FILE:

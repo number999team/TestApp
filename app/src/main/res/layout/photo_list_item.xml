@@ -5,7 +5,7 @@
 
     <ImageView
         android:id="@+id/photo_item_view"
-        android:src="@drawable/grass"
+        android:src="@drawable/screenshot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

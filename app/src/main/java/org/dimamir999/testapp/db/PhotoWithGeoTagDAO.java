@@ -53,7 +53,7 @@ public class PhotoWithGeoTagDAO {
         String[] selectionArgs = new String[]{String.valueOf(startDate.getTime()), String.valueOf(endDate.getTime())};
         Cursor cursor = database.query("photos", null,selectionString , selectionArgs, null, null, null);
 
-        Log.d("dimamir999", "my query " + startDate + " " + startDate);
+        Log.d("dimamir999", "Query with params " + startDate + " " + endDate);
         if (cursor.moveToFirst()) {
             int idColIndex = cursor.getColumnIndex("id");
             int pathColIndex = cursor.getColumnIndex("path");

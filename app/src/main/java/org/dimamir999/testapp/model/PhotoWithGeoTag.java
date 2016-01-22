@@ -50,12 +50,14 @@ public class PhotoWithGeoTag {
     }
 
     public Bitmap getPhoto() {
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
-        if (bitmap == null) {
-            Log.v("dimamir999", "incorrect format of photo");
-        }else {
-            photo = bitmap;
-            Log.v("dimamir999", "photo loaded");
+        if(photo == null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            if (bitmap == null) {
+                Log.v("dimamir999", "incorrect format of photo");
+            } else {
+                photo = bitmap;
+                Log.v("dimamir999", "photo loaded");
+            }
         }
         return photo;
     }

@@ -1,13 +1,18 @@
 package org.dimamir999.testapp.activities.views;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -16,9 +21,11 @@ import org.dimamir999.testapp.R;
 import org.dimamir999.testapp.activities.presenters.ListPhotosPresenter;
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
 import org.dimamir999.testapp.services.LocationControlService;
+import org.dimamir999.testapp.services.PhotoScaler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ListPhotosActivity extends Activity implements ListPhotoView{
@@ -26,11 +33,14 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
     private static final int DELETE_ITEM_ID = 1;
     private static final String ATTRIBUTE_NAME_TEXT = "text";
     private static final String ATTRIBUTE_NAME_IMAGE = "image";
+    private static final int LIST_PHOTO_HEIGHT = 250;
+    private static final int LIST_PHOTO_WIDTH = 250;
 
     private ListPhotosPresenter presenter;
     private ListView photosListView;
     private ArrayList<Map<String, Object>> data;
     private SimpleAdapter adapter;
+    private PhotoScaler photoScaler = new PhotoScaler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,7 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
         int[] to = { R.id.date_text_view,  R.id.photo_item_view};
         adapter = new SimpleAdapter(this, data, R.layout.photo_list_item,
                 from, to);
+        adapter.setViewBinder(new ScalePhotoBinder());
         photosListView.setAdapter(adapter);
         registerForContextMenu(photosListView);
     }
@@ -108,5 +119,21 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
         }
     }
 
+    private class ScalePhotoBinder implements SimpleAdapter.ViewBinder {
 
+        @Override
+        public boolean setViewValue(View view, Object data,
+                                    String textRepresentation) {
+            int i = 0;
+            if (view.getId() == R.id.photo_item_view) {
+                Log.v("dimamir999", "photo loaded");
+                Bitmap photo = BitmapFactory.decodeFile((String) data);
+                // calculate like dp size scale not in pixels
+                photo = photoScaler.scaleForList(photo, LIST_PHOTO_HEIGHT, LIST_PHOTO_WIDTH);
+                ((ImageView) view).setImageBitmap(photo);
+                return true;
+            }
+            return false;
+        }
+    }
 }
