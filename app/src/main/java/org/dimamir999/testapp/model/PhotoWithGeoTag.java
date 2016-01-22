@@ -55,8 +55,8 @@ public class PhotoWithGeoTag {
             if (bitmap == null) {
                 Log.v("dimamir999", "incorrect format of photo");
             } else {
-                photo = bitmap;
                 Log.v("dimamir999", "photo loaded");
+                return bitmap;
             }
         }
         return photo;

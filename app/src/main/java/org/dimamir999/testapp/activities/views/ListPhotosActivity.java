@@ -63,7 +63,11 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
             Map<String, Object> itemMap = new HashMap<String, Object>();
             PhotoWithGeoTag photoObject = photosList.get(i);
             itemMap.put(ATTRIBUTE_NAME_TEXT, photoObject.getDate().toString());
-            itemMap.put(ATTRIBUTE_NAME_IMAGE, photoObject.getPath());
+            Bitmap photo = photoObject.getPhoto();
+            if(photo.getHeight() != LIST_PHOTO_HEIGHT || photo.getWidth() != LIST_PHOTO_WIDTH) {
+                photo = photoScaler.scaleForList(photo, LIST_PHOTO_HEIGHT, LIST_PHOTO_WIDTH);
+            }
+            itemMap.put(ATTRIBUTE_NAME_IMAGE, photo);
             data.add(itemMap);
         }
         String[] from = { ATTRIBUTE_NAME_TEXT,
@@ -127,10 +131,7 @@ public class ListPhotosActivity extends Activity implements ListPhotoView{
             int i = 0;
             if (view.getId() == R.id.photo_item_view) {
                 Log.v("dimamir999", "photo loaded");
-                Bitmap photo = BitmapFactory.decodeFile((String) data);
-                // calculate like dp size scale not in pixels
-                photo = photoScaler.scaleForList(photo, LIST_PHOTO_HEIGHT, LIST_PHOTO_WIDTH);
-                ((ImageView) view).setImageBitmap(photo);
+                ((ImageView) view).setImageBitmap((Bitmap) data);
                 return true;
             }
             return false;
