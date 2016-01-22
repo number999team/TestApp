@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 /**
  * Created by dimamir999 on 20.01.16.
  */
-public interface PickPhotoView {
+public interface IPickPhotoView {
 
     public void stopProgressBar();
     public void startProgressBar();

@@ -22,7 +22,7 @@ import org.dimamir999.testapp.activities.presenters.PickPhotoPresenter;
 /**
  * Created by dimamir999 on 19.01.16.
  */
-public class PickPhotoFragment extends Fragment implements PickPhotoView{
+public class PickPhotoFragment extends Fragment implements IPickPhotoView {
 
     private PickPhotoPresenter presenter;
 

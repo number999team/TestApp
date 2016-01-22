@@ -8,12 +8,11 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.text.format.Time;
 import android.util.Log;
 
 import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
-import org.dimamir999.testapp.activities.views.PickPhotoView;
+import org.dimamir999.testapp.activities.views.IPickPhotoView;
 import org.dimamir999.testapp.services.GeoLocationService;
 import org.dimamir999.testapp.services.PhotoSaver;
 import org.dimamir999.testapp.services.PhotoScaler;
@@ -34,9 +33,9 @@ public class PickPhotoPresenter {
     private PhotoScaler photoScaler = new PhotoScaler();
     private PhotoWithGeoTagDAO photosDAO;
 
-    private PickPhotoView view;
+    private IPickPhotoView view;
 
-    public PickPhotoPresenter(PickPhotoView view) {
+    public PickPhotoPresenter(IPickPhotoView view) {
         this.view = view;
         this.photosDAO = new PhotoWithGeoTagDAO(view.getContextActivity());
     }
@@ -50,20 +49,24 @@ public class PickPhotoPresenter {
         GeoLocationService locationService = new GeoLocationService(view.getContextActivity());
         Location location = locationService.getCurrentLocation();
         Date currentDate = new Date(System.currentTimeMillis());
-        if(location != null) {
-            PhotoSaver saver = new PhotoSaver(view.getContextActivity());
-            String path = saver.savePhoto(photo);
-            if(path == null){
-                view.showErrorMessage("Cant save photo");
+        if(photo == null){
+            view.showErrorMessage("Please load photo");
+        }else {
+            if (location != null) {
+                PhotoSaver saver = new PhotoSaver(view.getContextActivity());
+                String path = saver.savePhoto(photo);
+                if (path == null) {
+                    view.showErrorMessage("Cant save photo");
+                } else {
+                    PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(path, location.getLongitude(), location.getLatitude(),
+                            currentDate);
+                    photosDAO.add(userPhoto);
+                    Log.v("dimamir999", userPhoto.toString());
+                    view.toListPhotosActivity();
+                }
             } else {
-                PhotoWithGeoTag userPhoto = new PhotoWithGeoTag(path, location.getLongitude(), location.getLatitude(),
-                        currentDate);
-                photosDAO.add(userPhoto);
-                Log.v("dimamir999", userPhoto.toString());
-                view.toListPhotosActivity();
+                view.showErrorMessage("Turn on GPS or internet");
             }
-        } else {
-            view.showErrorMessage("Turn on GPS or internet");
         }
     }
 

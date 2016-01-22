@@ -13,25 +13,30 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.dimamir999.testapp.R;
+import org.dimamir999.testapp.activities.presenters.MapPresenter;
+import org.dimamir999.testapp.model.PhotoWithGeoTag;
 import org.dimamir999.testapp.services.LocationControlService;
 import org.dimamir999.testapp.services.PhotoSaver;
+
+import java.util.ArrayList;
 
 
 public class MapActivity extends Activity implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private PhotoSaver loadService;
+    private MapPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        presenter = new MapPresenter();
 
-        loadService = new PhotoSaver(this);
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
@@ -44,36 +49,14 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-//        for(PhotoWithGeoTag userPhoto : loadService.getUserPhotos()){
-//
-//        }
-
-        //get my geo location
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location myLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        if (myLocation == null) {
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            String provider = lm.getBestProvider(criteria, true);
-            myLocation = lm.getLastKnownLocation(provider);
+        ArrayList<MarkerOptions> markers = getIntent().getParcelableArrayListExtra("markers");
+        for(MarkerOptions marker : markers){
+            map.addMarker(marker);
         }
-
-        //add marker my location
-        if(myLocation != null) {
-            map.addMarker(new MarkerOptions().position(new LatLng(myLocation.getLatitude(),
-                    myLocation.getLongitude())).title("my location"));
-        }
-
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng test1 = new LatLng(-34, 150);
-        LatLng test2 = new LatLng(-33, 150);
-
-
-        map.addMarker(new MarkerOptions().position(sydney).title("sydney"));
-        map.addMarker(new MarkerOptions().position(test1).title("test1"));
-        map.addMarker(new MarkerOptions().position(test2).title("test2"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(markers.get(markers.size() - 1).getPosition())
+                .zoom(13).build();
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     private void startLocationControlService(){

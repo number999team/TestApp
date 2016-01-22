@@ -1,24 +1,19 @@
 package org.dimamir999.testapp.activities.presenters;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.text.format.Time;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 
 
-import org.dimamir999.testapp.activities.views.ListPhotoView;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.dimamir999.testapp.activities.views.IListPhotoView;
 import org.dimamir999.testapp.db.PhotoWithGeoTagDAO;
 import org.dimamir999.testapp.model.PhotoWithGeoTag;
-import org.dimamir999.testapp.services.PhotoScaler;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,13 +21,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class ListPhotosPresenter {
 
-    private ListPhotoView view;
+    private IListPhotoView view;
     private PhotoWithGeoTagDAO photoWithGeoTagDAO;
     private ArrayList<PhotoWithGeoTag> viewedPhotos;
 
 
 
-    public ListPhotosPresenter(ListPhotoView view) {
+    public ListPhotosPresenter(IListPhotoView view) {
         this.view = view;
         photoWithGeoTagDAO = new PhotoWithGeoTagDAO(view.getContextActivity());
     }
@@ -57,6 +52,15 @@ public class ListPhotosPresenter {
         PhotoWithGeoTag photoObject = viewedPhotos.remove(position);
         AsyncRemover remover = new AsyncRemover();
         remover.execute(photoObject.getId());
+    }
+
+    public ArrayList<MarkerOptions> makeMarkerOptionsFromList(){
+        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        for(PhotoWithGeoTag userPhoto : viewedPhotos){
+            markers.add(new MarkerOptions().position(new LatLng(userPhoto.getLatitude(), userPhoto.getLongitude()))
+                    .title(userPhoto.getDate().toString()).snippet("Additional text"));
+        }
+        return markers;
     }
 
     private class AsyncRemover extends AsyncTask<Long, Void, Void> {

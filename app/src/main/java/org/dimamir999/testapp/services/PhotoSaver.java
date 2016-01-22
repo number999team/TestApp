@@ -47,19 +47,4 @@ public class PhotoSaver {
         }
         return path;
     }
-//    public ArrayList<PhotoWithGeoTag> getUserPhotos(){
-//        ArrayList<PhotoWithGeoTag> userPhotos = new ArrayList<PhotoWithGeoTag>();
-//        //get photos from db
-//        return  userPhotos;
-//    }
-//
-//    public ArrayList<MarkerOptions> makeMarkerOptionsFromList(ArrayList<PhotoWithGeoTag> userPhotos){
-//        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
-//        for(PhotoWithGeoTag userPhoto : userPhotos){
-//            markers.add(new MarkerOptions().position(new LatLng(userPhoto.getLatitude(), userPhoto.getLongitude())).icon(
-//                    BitmapDescriptorFactory.fromBitmap(userPhoto.getPhoto())));
-//        }
-//        return markers;
-//    }
-
 }

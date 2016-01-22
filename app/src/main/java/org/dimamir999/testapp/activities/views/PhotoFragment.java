@@ -33,6 +33,7 @@ public class PhotoFragment extends Fragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("photo", ((BitmapDrawable)imageView.getDrawable()).getBitmap());
+        if(imageView.getDrawable() != null)
+            outState.putParcelable("photo", ((BitmapDrawable)imageView.getDrawable()).getBitmap());
     }
 }
